@@ -12,28 +12,35 @@ struct Launch: View {
     
     var timeLeft: Int = 10
     var timeDone: Bool = false
+
+    /// Each button needs a signal passed to start the countdown
+    var start1: Bool = false
+    var start2: Bool = false
     var body: some View {
         
-        CountDownIndicator(startTime: Date(),
-                           timerValueString: "10",
-                           radius: 250)
-        .padding(100)
+        CountDownIndicator(timerValueString: "10",
+                           radius: 200)
+        Spacer()
         
-        HStack(spacing: 100) {
+        HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
             LaunchButton(buttonText: "Left",
                          buttonWidth: 100,
                          buttonColor: .green,
                          buttonPressed: didPressButton,
                          buttonReleased: didReleaseButton)
-            
+            .padding([.leading], 40)
+            Spacer()
             LaunchButton(buttonText: "Right",
                          buttonWidth: 100,
                          buttonColor: .green,
                          buttonPressed: didPressButton,
                          buttonReleased: didReleaseButton)
+            .padding([.trailing], 40)
         }
+        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+        
         Text("Press both buttons to begin countdown")
-            .padding()
+            .foregroundColor(.white)
     }
     
     /// A launch button is pressed
@@ -44,20 +51,9 @@ struct Launch: View {
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
     }
-    
-    //    func startTimer() -> Bool{
-    //        Timer.scheduledTimer(timeInterval: 1.0, repeats: false){
-    //            timer in
-    //            print("TImer fired")
-    //            timeLeft -= 1
-    //            if timeLeft == 0 {
-    //                timer.invalidate()
-    //                return true
-    //            }
-    //        }
-    //    }
 }
 
 #Preview {
     Launch()
+        
 }

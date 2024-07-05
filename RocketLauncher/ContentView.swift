@@ -4,25 +4,31 @@
 //
 //  Created by Jeff Patterson on 6/30/24.
 //
+///<a href="https://www.flaticon.com/free-icons/rocket" title="rocket icons">Rocket icons created by Freepik - Flaticon</a>
 
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         HStack {
             Image(systemName: "button.programmable.square")
                 .imageScale(.large)
-                .foregroundStyle(.tint)
+                .foregroundColor(.white)
             Text("Rocket Launcher!")
                 .fontWeight(.bold)
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .font(.largeTitle)
         }
-        .padding()
-            Launch()
+        .background(Image("Galaxies")
+            .aspectRatio(contentMode: .fit)
+            .opacity(0.4))
+        Launch()
     }
 }
-
+    
 #Preview {
     ContentView()
+//        .colorScheme(.dark)
+//        .background(Color.black)
 }

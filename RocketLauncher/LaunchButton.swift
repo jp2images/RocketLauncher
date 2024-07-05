@@ -18,19 +18,17 @@ struct LaunchButton: View {
                                    blue: 0.15,
                                    opacity: 1.0)
     
-    var buttonPressed: (LaunchButton) -> Void = {_ in } // Default value of "Empty Closure" a function or method that has no name.
-    
-    var buttonReleased: (LaunchButton) -> Void = {_ in } // Default value of "Empty Closure" a function or method that has no name.
+    /// Default value of "Empty Closure" a function or method that has no name.
+    var buttonPressed: (LaunchButton) -> Void = {_ in }
+    var buttonReleased: (LaunchButton) -> Void = {_ in }
     
     var body: some View {
         Button {
             buttonPressed(self)
             buttonReleased(self)
-            
         } label: {
             Text(buttonText)
                 .font(.largeTitle)
-            //.fontWeight(.heavy)
                 .frame(width: buttonWidth,
                        height: buttonWidth,
                        alignment: .center)
@@ -42,5 +40,5 @@ struct LaunchButton: View {
 }
 
 #Preview {
-    LaunchButton()
+    LaunchButton(buttonColor: .blue)
 }
