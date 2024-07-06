@@ -8,15 +8,12 @@
 import SwiftUI
 
 struct CountDownIndicator: View {
-    @AppStorage("TimerPreset") var timerPresetValue: Int = 15
+    @AppStorage("TimerPreset") var timerPreset: Int = 15
     
     @State var isTimerRunning = false
-    //@State private var timerValue = 15
     @State var startTime = Date()
-    @State var timerValueString = "10"
     @State var indicatorColor: Color = .yellow
-    @State private var timeRemaining = 10
-    
+        
     ///Start a timer when the application starts.
     @State private var timer = Timer
         .publish(every: 1, on: .main, in: .common)
@@ -29,45 +26,51 @@ struct CountDownIndicator: View {
     
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
-    
+    @State var timeRemaining: Int = 0
+    @State var isEnabled: Bool
+
     var radius: Double = 200
-        
+    
     var body: some View {
+        
         HStack{
             let step = 1
             let range = 1...30
             
             Stepper(
-                value: $timerPresetValue,
+                value: $timerPreset,
                 in: range,
                 step: step
             ) {
-                Text("Timer preset: \(timerPresetValue)")
+                Text("Timer preset: \(timerPreset)")
                     .multilineTextAlignment(.trailing)
                     .foregroundColor(.white)
             }
             .padding([.bottom], 10)
             .foregroundColor(.black)
             .onChange(of: step){
-                timeRemaining = timerPresetValue
+                if isTimerRunning == false{
+                    timeRemaining = timerPreset
+                }
             }
         }.frame(width: 235)
             .padding([.bottom], 20)
         Spacer()
-        
         Text("\(timeRemaining)")
             .onReceive(timer){ time in
                 guard isScenePhaseActive else { return }
                 if timeRemaining > 0 {
                     timeRemaining -= 1
+                    isTimerRunning = true
                 }
+
                 if timeRemaining <= 0 {
                     indicatorColor = .red
                     isTimerRunning = false
                 }
             }
             .onTapGesture {
-                if isTimerRunning {
+                if isTimerRunning == false {
                     //timeRemaining = timerValue
                 }
             }
@@ -88,15 +91,13 @@ struct CountDownIndicator: View {
             )
             .onLongPressGesture{
                 if !isTimerRunning{
-                    timeRemaining = timerPresetValue
+                    timeRemaining = timerPreset
                     indicatorColor = .yellow
-                    print("Long press isTimerRunning: \(isTimerRunning)")
                 }
-                print("isTimerRunning: \(isTimerRunning)")
             }
     }
 }
 
 #Preview {
-    CountDownIndicator(timerValueString: "15")
+    CountDownIndicator(isEnabled: false)
 }
