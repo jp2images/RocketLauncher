@@ -26,6 +26,7 @@ struct LaunchButton: View {
         Button {
             buttonPressed(self)
             buttonReleased(self)
+            
         } label: {
             Text(buttonText)
                 .font(.largeTitle)
@@ -34,8 +35,10 @@ struct LaunchButton: View {
                        alignment: .center)
                 .background(buttonColor)
                 .foregroundColor(buttonTextColor)
+                .foregroundColor(buttonTextColor)
                 .clipShape(RoundedRectangle(cornerRadius:(buttonWidth/2)))
         }
+        
     }
 }
 

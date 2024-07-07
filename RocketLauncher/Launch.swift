@@ -15,13 +15,13 @@ struct Launch: View {
     var timeDone: Bool = false
 
     /// Enable the countdown. If button is release the coundown will stop and reset
-    @State var countdownEnable: Bool = false
+    @State var isCountdownEnable: Bool = false
     
     var body: some View {
         
         GeometryReader{geo in
             VStack {
-                CountDownIndicator(isEnabled: countdownEnable, radius: 200)
+                CountDownIndicator(isCountEnabled: $isCountdownEnable, radius: 200)
                 Spacer()
                 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
@@ -46,14 +46,14 @@ struct Launch: View {
     /// A launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        countdownEnable = true
-        print("Count enabled: \(countdownEnable)")
+        isCountdownEnable = true
+        print("Enable Count: \(isCountdownEnable)")
     }
     
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        countdownEnable = false
-        print("Count disabled: \(countdownEnable)")
+        //isCountdownEnable = false
+        print("Disable Count: \(isCountdownEnable)")
     }
 }
 

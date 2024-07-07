@@ -10,6 +10,9 @@ import SwiftUI
 struct CountDownIndicator: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
     
+    @Binding var isCountEnabled: Bool
+    
+    //@State var isCountDone = false
     @State var isTimerRunning = false
     @State var startTime = Date()
     @State var indicatorColor: Color = .yellow
@@ -18,6 +21,7 @@ struct CountDownIndicator: View {
     @State private var timer = Timer
         .publish(every: 1, on: .main, in: .common)
         .autoconnect()
+
     
     /// scenePhase is watching for the application to be the app on the main screen. When it goes
     /// to the background the app will go to sleep, but this takes a couple seconds and the timer will
@@ -27,12 +31,11 @@ struct CountDownIndicator: View {
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
     @State var timeRemaining: Int = 0
-    @State var isEnabled: Bool
+    //@State var isEnabled: Bool
 
     var radius: Double = 200
     
     var body: some View {
-        
         HStack{
             let step = 1
             let range = 1...30
@@ -49,8 +52,9 @@ struct CountDownIndicator: View {
             .padding([.bottom], 10)
             .foregroundColor(.black)
             .onChange(of: step){
-                if isTimerRunning == false{
+                if isCountEnabled{
                     timeRemaining = timerPreset
+                    //isCountDone = false
                 }
             }
         }.frame(width: 235)
@@ -58,22 +62,38 @@ struct CountDownIndicator: View {
         Spacer()
         Text("\(timeRemaining)")
             .onReceive(timer){ time in
-                guard isScenePhaseActive else { return }
-                if timeRemaining > 0 {
-                    timeRemaining -= 1
-                    isTimerRunning = true
-                }
-
-                if timeRemaining <= 0 {
-                    indicatorColor = .red
-                    isTimerRunning = false
+                //print("Timer running: \(isTimerRunning)")
+                print("Count Enables: \(isCountEnabled)")
+                print("Time left: \(timeRemaining)")
+                if isCountEnabled{
+                    guard isScenePhaseActive else { return }
+                    if timeRemaining > 0 {
+                        timeRemaining -= 1
+                        isCountEnabled = true
+                        isTimerRunning = true
+                    }
+                    
+                    if timeRemaining <= 0 {
+                        isTimerRunning = false
+                        indicatorColor = .red
+                        isCountEnabled = false
+                        // TODO This is where we should turn on the Bluetooth
+                        // signal to turn on the MCU realy output
+                    }
+               } else if !isTimerRunning {
+//                    timeRemaining = timerPreset
+//                    isTimerRunning = false
+//                    isCountDone = true
+                    //indicatorColor = .yellow
                 }
             }
-            .onTapGesture {
-                if isTimerRunning == false {
-                    //timeRemaining = timerValue
-                }
-            }
+//            .onTapGesture {
+//                if isTimerRunning == false {
+//                    //timeRemaining = timerValue
+//                    //isTimerRunning = true
+//                }
+//            }
+            /// Verify if application is active app
             .onChange(of: scenePhase){
                 if scenePhase == .active {
                     isScenePhaseActive = true
@@ -89,15 +109,19 @@ struct CountDownIndicator: View {
                     .fill(indicatorColor)
                     .frame(width: radius, height: radius)
             )
+            /// Reset the timer
             .onLongPressGesture{
-                if !isTimerRunning{
+                if !isCountEnabled{
+                    //isCountEnabled = false
                     timeRemaining = timerPreset
                     indicatorColor = .yellow
                 }
             }
     }
+    
+    
 }
 
-#Preview {
-    CountDownIndicator(isEnabled: false)
-}
+//#Preview {
+//    CountDownIndicator(isCountDone: true)
+//}
