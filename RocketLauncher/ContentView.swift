@@ -14,13 +14,14 @@ struct ContentView: View {
         HStack {
             Image(systemName: "button.programmable.square")
                 .imageScale(.large)
-                .foregroundColor(.white)
+                //.foregroundColor(.white)
             Text("Rocket Launcher!")
                 .fontWeight(.bold)
+                //.foregroundStyle(.ultraThickMaterial)
                 .foregroundColor(.white)
                 .font(.largeTitle)
         }
-        .background(Image("Galaxies")
+        .background(Image("Galaxy")
             .aspectRatio(contentMode: .fit)
             .opacity(0.4))
         Launch()
@@ -29,6 +30,6 @@ struct ContentView: View {
     
 #Preview {
     ContentView()
-//        .colorScheme(.dark)
-//        .background(Color.black)
+        //.colorScheme(.dark)
+        //.background(Color.black)
 }

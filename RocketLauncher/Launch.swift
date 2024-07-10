@@ -23,18 +23,13 @@ struct Launch: View {
             VStack {
                 CountDownIndicator(isCountEnabled: $isCountdownEnable, radius: 200)
                 Spacer()
-                
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    LaunchButton(buttonText: "Launch",
-                                 buttonWidth: 150,
+                    LaunchButton(buttonWidth: 150,
                                  buttonColor: .green,
                                  buttonPressed: didPressButton,
                                  buttonReleased: didReleaseButton)
-                    
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                
-                //Text("Press both buttons to begin countdown")
                 Text("Press and hold button until countdown completes to launch")
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -43,21 +38,24 @@ struct Launch: View {
         }
     }
     
-    /// A launch button is pressed
+    /// The launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
         isCountdownEnable = true
-        print("Enable Count: \(isCountdownEnable)")
+        print("Pressed, Count: \(isCountdownEnable)")
     }
     
+    /// TODO The launch button is released. Not doing anything useful but keeping it around
+    /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
         //isCountdownEnable = false
-        print("Disable Count: \(isCountdownEnable)")
+        print("Released, Count: \(isCountdownEnable)")
     }
 }
 
 #Preview {
     Launch()
+        .background(.gray)
         
 }

@@ -13,9 +13,9 @@ struct CountDownIndicator: View {
     @Binding var isCountEnabled: Bool
     
     //@State var isCountDone = false
-    @State var isTimerRunning = false
-    @State var startTime = Date()
-    @State var indicatorColor: Color = .yellow
+    @State private var isTimerRunning = false
+    @State private var startTime = Date()
+    @State private var indicatorColor: Color = .yellow
         
     ///Start a timer when the application starts.
     @State private var timer = Timer
@@ -30,8 +30,7 @@ struct CountDownIndicator: View {
     
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
-    @State var timeRemaining: Int = 0
-    //@State var isEnabled: Bool
+    @State private var timeRemaining: Int = 0
 
     var radius: Double = 200
     
@@ -54,7 +53,6 @@ struct CountDownIndicator: View {
             .onChange(of: step){
                 if isCountEnabled{
                     timeRemaining = timerPreset
-                    //isCountDone = false
                 }
             }
         }.frame(width: 235)
@@ -62,9 +60,13 @@ struct CountDownIndicator: View {
         Spacer()
         Text("\(timeRemaining)")
             .onReceive(timer){ time in
-                //print("Timer running: \(isTimerRunning)")
-                print("Count Enables: \(isCountEnabled)")
-                print("Time left: \(timeRemaining)")
+                if timeRemaining > 0{
+                    print("Time: \(timeRemaining)")
+                    if isCountEnabled{
+                        print("Counting: \(isCountEnabled)")
+                    }
+                }
+                
                 if isCountEnabled{
                     guard isScenePhaseActive else { return }
                     if timeRemaining > 0 {
@@ -108,11 +110,11 @@ struct CountDownIndicator: View {
                     .strokeBorder()
                     .fill(indicatorColor)
                     .frame(width: radius, height: radius)
+                    .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 8, y: 8)
             )
             /// Reset the timer
             .onLongPressGesture{
                 if !isCountEnabled{
-                    //isCountEnabled = false
                     timeRemaining = timerPreset
                     indicatorColor = .yellow
                 }
@@ -123,5 +125,6 @@ struct CountDownIndicator: View {
 }
 
 //#Preview {
-//    CountDownIndicator(isCountDone: true)
+//    @Binding var isEnabled: Bool = projectedValue
+//    CountDownIndicator(isCountEnabled: $isEnabled )
 //}

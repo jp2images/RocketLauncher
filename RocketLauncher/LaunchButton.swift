@@ -9,9 +9,7 @@ import SwiftUI
 
 struct LaunchButton: View {
     @State private var radius: CGFloat = .zero
-    
-    var buttonText: String = "Btn"
-    var buttonTextColor: Color = .white
+
     var buttonWidth: CGFloat = 150
     var buttonColor: Color = Color(red: 0.15,
                                    green: 0.15,
@@ -27,18 +25,18 @@ struct LaunchButton: View {
             buttonPressed(self)
             buttonReleased(self)
             
-        } label: {
-            Text(buttonText)
-                .font(.largeTitle)
-                .frame(width: buttonWidth,
-                       height: buttonWidth,
-                       alignment: .center)
-                .background(buttonColor)
-                .foregroundColor(buttonTextColor)
-                .foregroundColor(buttonTextColor)
-                .clipShape(RoundedRectangle(cornerRadius:(buttonWidth/2)))
+        } label: {///Label is a closure that is available when not using parameters for the button function.
+            Image("Button")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding()
         }
-        
+        .frame(width: buttonWidth,
+               height: buttonWidth * 0.7,
+               alignment: .center)
+        .background(buttonColor)
+        .clipShape(RoundedRectangle(cornerRadius:(buttonWidth/2)))
+        .shadow(radius: 5, x: 8, y: 8)
     }
 }
 
