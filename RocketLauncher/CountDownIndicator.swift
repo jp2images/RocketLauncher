@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct CountDownIndicator: View {
-    @State var isTimerRunning = false
-    @State private var timerValue = 15
-    @State var startTime = Date()
-    @State var timerValueString = "10"
+    @AppStorage("TimerPreset") var timerPreset: Int = 15
     
-    @State private var timeRemaining = 10
-    //let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Binding var isCountEnabled: Bool
+    
+    @State private var isTimerRunning = false
+    @State private var startTime = Date()
+    @State private var indicatorColor: Color = .yellow
     
     ///Start a timer when the application starts.
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var timer = Timer
+        .publish(every: 1, on: .main, in: .common)
+        .autoconnect()
     
     /// scenePhase is watching for the application to be the app on the main screen. When it goes
     /// to the background the app will go to sleep, but this takes a couple seconds and the timer will
@@ -26,33 +28,81 @@ struct CountDownIndicator: View {
     
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
+    @State private var timeRemaining: Int = 0
     
     var radius: Double = 200
     
     var body: some View {
-        
+        if timerPreset == timeRemaining{
+            Text("The ship is ready captian and the board is green")
+                .fontWeight(.thin)
+                .foregroundColor(.green)
+            //.foregroundStyle(.ultraThickMaterial)
+                .font(.headline)
+        } else{
+            Text(" ")
+        }
         HStack{
             let step = 1
             let range = 1...30
             
             Stepper(
-                value: $timerValue,
+                value: $timerPreset,
                 in: range,
                 step: step
             ) {
-                //Text("Timer Setting: \(timerValue)")
+                Text("Timer preset: \(timerPreset)")
+                    .multilineTextAlignment(.trailing)
+                    .foregroundColor(.white)
             }
-            
-        }
-        .padding([.bottom], 40)
-        
-        Text("\(timeRemaining)")
-            .onReceive(timer){ time in
-                guard isScenePhaseActive else { return }
-                if timeRemaining > 0 {
-                    timeRemaining -= 1
+            .padding([.bottom], 10)
+            .foregroundColor(.black)
+            .onChange(of: step){
+                if isCountEnabled{
+                    timeRemaining = timerPreset
                 }
             }
+        }.frame(width: 235)
+            .padding([.bottom], 20)
+        Spacer()
+        Text("\(timeRemaining)")
+            .onReceive(timer){ time in
+                if timeRemaining > 0{
+                    print("Time: \(timeRemaining)")
+                    if isCountEnabled{
+                        print("Counting: \(isCountEnabled)")
+                    }
+                }
+                
+                if isCountEnabled{
+                    guard isScenePhaseActive else { return }
+                    if timeRemaining > 0 {
+                        timeRemaining -= 1
+                        isCountEnabled = true
+                        isTimerRunning = true
+                    }
+                    
+                    if timeRemaining <= 0 {
+                        isTimerRunning = false
+                        indicatorColor = .red
+                        isCountEnabled = false
+                        // TODO This is where we should turn on the Bluetooth
+                        // signal to turn on the MCU realy output
+                    }
+                } else if !isTimerRunning {
+                    //                    timeRemaining = timerPreset
+                    //                    isTimerRunning = false
+                    //                    isCountDone = true
+                    //indicatorColor = .yellow
+                }
+            }
+        //            .onTapGesture {
+        //                if isTimerRunning == false {
+        //                    //timeRemaining = timerValue
+        //                    //isTimerRunning = true
+        //                }
+        //            }
+        /// Verify if application is active app
             .onChange(of: scenePhase){
                 if scenePhase == .active {
                     isScenePhaseActive = true
@@ -60,52 +110,25 @@ struct CountDownIndicator: View {
                     isScenePhaseActive = false
                 }
             }
-        
-        
-        //Text(self.timerValueString)
-        //            .onReceive(timer){ _ in
-        //                if self.isTimerRunning {
-        //                    timerValueString = String(format: "%0.0f", (Date().timeIntervalSince(self.startTime)))
-        //                }
-        //            }
-        //            .onTapGesture {
-        //                if isTimerRunning {
-        //                    self.stopTimer()
-        //                    timerValueString = "\(timerValue)"
-        //                    startTime = Date()
-        //                } else{
-        //                    timerValueString = "\(timerValue)"
-        //                    startTime = Date()
-        //                    //Start UI updates
-        //                    self.startTimer()
-        //                }
-        //                isTimerRunning.toggle()
-        //                return
-        //            }
             .foregroundColor(.black)
             .font(.system(size: 72))
             .background(
                 Ellipse()
                     .strokeBorder()
-                    .fill(.red)
+                    .fill(indicatorColor)
                     .frame(width: radius, height: radius)
+                    .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 8, y: 8)
             )
-
-        
-
+            /// Reset the timer
+            .onLongPressGesture{
+                if !isCountEnabled{
+                    timeRemaining = timerPreset
+                    indicatorColor = .yellow
+                }
+            }
     }
-    
-//    func stopTimer(){
-//        self.timer.upstream.connect().cancel()
-//    }
-//    
-//    func startTimer(){
-//        self.timer = Timer.publish(every: 0.1, on: .main, in: .common)
-//            .autoconnect()
-//    }
-    
 }
 
 #Preview {
-    CountDownIndicator(timerValueString: "10")
+    CountDownIndicator(isCountEnabled: .constant(false))
 }
