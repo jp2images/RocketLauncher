@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LaunchButton: View {
+    @Binding var isEnabled: Bool
     @State private var radius: CGFloat = .zero
 
     var buttonWidth: CGFloat = 150
@@ -41,5 +42,7 @@ struct LaunchButton: View {
 }
 
 #Preview {
-    LaunchButton(buttonColor: .blue)
+    LaunchButton(isEnabled: .constant(false), buttonColor: .blue)
 }
+
+

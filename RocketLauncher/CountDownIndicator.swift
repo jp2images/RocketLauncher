@@ -12,16 +12,14 @@ struct CountDownIndicator: View {
     
     @Binding var isCountEnabled: Bool
     
-    //@State var isCountDone = false
     @State private var isTimerRunning = false
     @State private var startTime = Date()
     @State private var indicatorColor: Color = .yellow
-        
+    
     ///Start a timer when the application starts.
     @State private var timer = Timer
         .publish(every: 1, on: .main, in: .common)
         .autoconnect()
-
     
     /// scenePhase is watching for the application to be the app on the main screen. When it goes
     /// to the background the app will go to sleep, but this takes a couple seconds and the timer will
@@ -31,10 +29,19 @@ struct CountDownIndicator: View {
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
     @State private var timeRemaining: Int = 0
-
+    
     var radius: Double = 200
     
     var body: some View {
+        if timerPreset == timeRemaining{
+            Text("The ship is ready captian and the board is green")
+                .fontWeight(.thin)
+                .foregroundColor(.green)
+            //.foregroundStyle(.ultraThickMaterial)
+                .font(.headline)
+        } else{
+            Text(" ")
+        }
         HStack{
             let step = 1
             let range = 1...30
@@ -82,20 +89,20 @@ struct CountDownIndicator: View {
                         // TODO This is where we should turn on the Bluetooth
                         // signal to turn on the MCU realy output
                     }
-               } else if !isTimerRunning {
-//                    timeRemaining = timerPreset
-//                    isTimerRunning = false
-//                    isCountDone = true
+                } else if !isTimerRunning {
+                    //                    timeRemaining = timerPreset
+                    //                    isTimerRunning = false
+                    //                    isCountDone = true
                     //indicatorColor = .yellow
                 }
             }
-//            .onTapGesture {
-//                if isTimerRunning == false {
-//                    //timeRemaining = timerValue
-//                    //isTimerRunning = true
-//                }
-//            }
-            /// Verify if application is active app
+        //            .onTapGesture {
+        //                if isTimerRunning == false {
+        //                    //timeRemaining = timerValue
+        //                    //isTimerRunning = true
+        //                }
+        //            }
+        /// Verify if application is active app
             .onChange(of: scenePhase){
                 if scenePhase == .active {
                     isScenePhaseActive = true
@@ -120,11 +127,8 @@ struct CountDownIndicator: View {
                 }
             }
     }
-    
-    
 }
 
-//#Preview {
-//    @Binding var isEnabled: Bool = projectedValue
-//    CountDownIndicator(isCountEnabled: $isEnabled )
-//}
+#Preview {
+    CountDownIndicator(isCountEnabled: .constant(false))
+}

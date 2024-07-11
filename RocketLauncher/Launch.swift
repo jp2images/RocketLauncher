@@ -10,7 +10,7 @@ import SwiftUI
 struct Launch: View {
    
     @State private var radius: CGFloat = .zero
-    
+       
     var timeLeft: Int = 10
     var timeDone: Bool = false
 
@@ -24,10 +24,19 @@ struct Launch: View {
                 CountDownIndicator(isCountEnabled: $isCountdownEnable, radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    LaunchButton(buttonWidth: 150,
+                    LaunchButton(isEnabled: $isCountdownEnable,
+                                 buttonWidth: 150,
                                  buttonColor: .green,
                                  buttonPressed: didPressButton,
                                  buttonReleased: didReleaseButton)
+                    // .onLongPressGesture{
+//                        isCountdownEnable = true
+//                        print("Long press")
+//                        if !isCountEnabled{
+//                            timeRemaining = timerPreset
+//                            indicatorColor = .yellow
+//                        }
+//                    }
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 Text("Press and hold button until countdown completes to launch")

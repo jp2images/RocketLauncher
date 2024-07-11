@@ -9,21 +9,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+        
     var body: some View {
+        
         HStack {
             Image(systemName: "button.programmable.square")
                 .imageScale(.large)
-                //.foregroundColor(.white)
+                .foregroundColor(.white)
             Text("Rocket Launcher!")
                 .fontWeight(.bold)
-                //.foregroundStyle(.ultraThickMaterial)
                 .foregroundColor(.white)
                 .font(.largeTitle)
         }
         .background(Image("Galaxy")
             .aspectRatio(contentMode: .fit)
             .opacity(0.4))
+                
         Launch()
     }
 }

@@ -1,23 +1,23 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "nebula.jpg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename": "nebula.jpg",
+      "idiom": "universal",
+      "scale": "1x"
     },
     {
-      "filename" : "nebulax2.jpg",
-      "idiom" : "universal",
-      "scale" : "2x"
+      "filename": "nebula@x2.jpg",
+      "idiom": "universal",
+      "scale": "2x"
     },
     {
-      "filename" : "nebulax3.jpg",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename": "nebula@x3.jpg",
+      "idiom": "universal",
+      "scale": "3x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }
