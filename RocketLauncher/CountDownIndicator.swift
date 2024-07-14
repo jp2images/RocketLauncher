@@ -28,7 +28,9 @@ struct CountDownIndicator: View {
     
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
-    @State private var timeRemaining: Int = 0
+    
+    /// Bound variable and used in the Launch.Swift view
+    @State var timeRemaining: Int = 0
     
     var radius: Double = 200
     

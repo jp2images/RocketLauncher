@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct Launch: View {
-
+    @Binding var timerPreset: Int
+    
+    //@Binding var timeRemaining: Int
     @State private var radius: CGFloat = .zero
 
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
+    @State var isPressed: Bool = false
        
     var timeLeft: Int = 10
     var timeDone: Bool = false
@@ -27,16 +30,30 @@ struct Launch: View {
                     LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
-                                 buttonPressed: didPressButton,
-                                 buttonReleased: didReleaseButton)
-                    // .onLongPressGesture{
-//                        isCountdownEnable = true
-//                        print("Long press")
-//                        if !isCountEnabled{
-//                            timeRemaining = timerPreset
-//                            indicatorColor = .yellow
-//                        }
-//                    }
+                                 buttonPressed: didPressButton)//,
+                                 //buttonReleased: didReleaseButton)
+                    
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 5.0)
+                            .onChanged({value in
+                                if !isPressed {
+                                    withAnimation(.linear(duration: Double(timerPreset))){
+                                        isPressed = true
+                                    }
+                                }
+                            })
+                            .onEnded({_ in
+                                if !isEnabled {
+                                    isPressed = false
+                                }
+                            })
+                        )
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: Double(timerPreset), maximumDistance: .infinity)
+                            .onEnded({_ in
+                            isPressed = true})
+                    )
+
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 Text("Press and hold button until countdown completes to launch")
@@ -64,6 +81,6 @@ struct Launch: View {
 }
 
 #Preview {
-    Launch(isEnabled: true)
+    Launch(timerPreset: .constant(7))
         .background(.gray)
 }
