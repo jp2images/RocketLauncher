@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct Launch: View {
-   
+
     @State private var radius: CGFloat = .zero
+
+    /// Enable the countdown. If button is release the coundown will stop and reset
+    @State var isEnabled: Bool = false
        
     var timeLeft: Int = 10
     var timeDone: Bool = false
-
-    /// Enable the countdown. If button is release the coundown will stop and reset
-    @State var isCountdownEnable: Bool = false
     
     var body: some View {
         
         GeometryReader{geo in
             VStack {
-                CountDownIndicator(isCountEnabled: $isCountdownEnable, radius: 200)
+                CountDownIndicator(isEnabled: $isEnabled, radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    LaunchButton(isEnabled: $isCountdownEnable,
+                    LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
                                  buttonPressed: didPressButton,
@@ -50,8 +50,8 @@ struct Launch: View {
     /// The launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        isCountdownEnable = true
-        print("Pressed, Count: \(isCountdownEnable)")
+        isEnabled = true
+        print("Pressed, Count: \(isEnabled)")
     }
     
     /// TODO The launch button is released. Not doing anything useful but keeping it around
@@ -59,12 +59,11 @@ struct Launch: View {
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
         //isCountdownEnable = false
-        print("Released, Count: \(isCountdownEnable)")
+        print("Released, Count: \(isEnabled)")
     }
 }
 
 #Preview {
-    Launch()
+    Launch(isEnabled: true)
         .background(.gray)
-        
 }

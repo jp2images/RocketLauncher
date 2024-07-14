@@ -10,6 +10,7 @@
 		1F02EA192C31A04B00A92002 /* LaunchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA182C31A04B00A92002 /* LaunchButton.swift */; };
 		1F02EA1B2C31A0D000A92002 /* CountDownIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */; };
 		1F02EA1D2C31A13700A92002 /* Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA1C2C31A13700A92002 /* Launch.swift */; };
+		1F69B8092C407C0900F198F1 /* LaunchIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F69B8082C407C0800F198F1 /* LaunchIndicator.swift */; };
 		1FCFA2842C319FDA00B7215A /* RocketLauncherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */; };
 		1FCFA2862C319FDA00B7215A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFA2852C319FDA00B7215A /* ContentView.swift */; };
 		1FCFA2882C319FDB00B7215A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCFA2872C319FDB00B7215A /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		1F02EA182C31A04B00A92002 /* LaunchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchButton.swift; sourceTree = "<group>"; };
 		1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownIndicator.swift; sourceTree = "<group>"; };
 		1F02EA1C2C31A13700A92002 /* Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launch.swift; sourceTree = "<group>"; };
+		1F69B8082C407C0800F198F1 /* LaunchIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaunchIndicator.swift; path = RocketLauncher/LaunchIndicator.swift; sourceTree = SOURCE_ROOT; };
 		1FCFA2802C319FDA00B7215A /* RocketLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketLauncherApp.swift; sourceTree = "<group>"; };
 		1FCFA2852C319FDA00B7215A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				1FBE563F2C36FCAC003FD404 /* Images */,
 				1FCFA2892C319FDB00B7215A /* Preview Content */,
 				1F02EA182C31A04B00A92002 /* LaunchButton.swift */,
+				1F69B8082C407C0800F198F1 /* LaunchIndicator.swift */,
 				1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */,
 			);
 			path = RocketLauncher;
@@ -278,6 +281,7 @@
 				1F02EA1B2C31A0D000A92002 /* CountDownIndicator.swift in Sources */,
 				1FCFA2842C319FDA00B7215A /* RocketLauncherApp.swift in Sources */,
 				1F02EA1D2C31A13700A92002 /* Launch.swift in Sources */,
+				1F69B8092C407C0900F198F1 /* LaunchIndicator.swift in Sources */,
 				1F02EA192C31A04B00A92002 /* LaunchButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,7 @@ import SwiftUI
 struct CountDownIndicator: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
     
-    @Binding var isCountEnabled: Bool
+    @Binding var isEnabled: Bool
     
     @State private var isTimerRunning = false
     @State private var startTime = Date()
@@ -34,13 +34,22 @@ struct CountDownIndicator: View {
     
     var body: some View {
         if timerPreset == timeRemaining{
-            Text("The ship is ready captian and the board is green")
+            Text("The ship is ready captian; the board is green")
+                .padding()
+                .background(.regularMaterial, in:Capsule())
                 .fontWeight(.thin)
                 .foregroundColor(.green)
-            //.foregroundStyle(.ultraThickMaterial)
                 .font(.headline)
         } else{
+            ///Show no text but until I find a better way, we don't want the existing control view
+            ///to shift position.
             Text(" ")
+                .padding()
+                //.background(.regularMaterial, in:Capsule())
+                .fontWeight(.thin)
+                .foregroundColor(.white)
+                .font(.headline)
+            
         }
         HStack{
             let step = 1
@@ -58,7 +67,7 @@ struct CountDownIndicator: View {
             .padding([.bottom], 10)
             .foregroundColor(.black)
             .onChange(of: step){
-                if isCountEnabled{
+                if isEnabled{
                     timeRemaining = timerPreset
                 }
             }
@@ -69,23 +78,23 @@ struct CountDownIndicator: View {
             .onReceive(timer){ time in
                 if timeRemaining > 0{
                     print("Time: \(timeRemaining)")
-                    if isCountEnabled{
-                        print("Counting: \(isCountEnabled)")
+                    if isEnabled{
+                        print("Counting: \(isEnabled)")
                     }
                 }
                 
-                if isCountEnabled{
+                if isEnabled{
                     guard isScenePhaseActive else { return }
                     if timeRemaining > 0 {
                         timeRemaining -= 1
-                        isCountEnabled = true
+                        isEnabled = true
                         isTimerRunning = true
                     }
                     
                     if timeRemaining <= 0 {
                         isTimerRunning = false
                         indicatorColor = .red
-                        isCountEnabled = false
+                        isEnabled = false
                         // TODO This is where we should turn on the Bluetooth
                         // signal to turn on the MCU realy output
                     }
@@ -96,13 +105,8 @@ struct CountDownIndicator: View {
                     //indicatorColor = .yellow
                 }
             }
-        //            .onTapGesture {
-        //                if isTimerRunning == false {
-        //                    //timeRemaining = timerValue
-        //                    //isTimerRunning = true
-        //                }
-        //            }
-        /// Verify if application is active app
+
+            /// Verify if application is active app
             .onChange(of: scenePhase){
                 if scenePhase == .active {
                     isScenePhaseActive = true
@@ -121,7 +125,7 @@ struct CountDownIndicator: View {
             )
             /// Reset the timer
             .onLongPressGesture{
-                if !isCountEnabled{
+                if !isEnabled{
                     timeRemaining = timerPreset
                     indicatorColor = .yellow
                 }
@@ -130,5 +134,5 @@ struct CountDownIndicator: View {
 }
 
 #Preview {
-    CountDownIndicator(isCountEnabled: .constant(false))
+    CountDownIndicator(isEnabled: .constant(false))
 }
