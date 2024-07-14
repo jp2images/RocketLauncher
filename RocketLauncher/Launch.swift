@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct Launch: View {
-
+    @AppStorage("TimerPreset") var timerPreset: Int = 15
+    
+    //@Binding var timeRemaining: Int
     @State private var radius: CGFloat = .zero
 
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
+    @State var isPressed: Bool = false
+    
+    @State private var isDetectingLongPress: GestureState<Any>
+    @State var GestureState: GestureState<Any>
+    @State var currentState: GestureState<Any>
        
     var timeLeft: Int = 10
     var timeDone: Bool = false
@@ -21,22 +28,45 @@ struct Launch: View {
         
         GeometryReader{geo in
             VStack {
-                CountDownIndicator(isEnabled: $isEnabled, radius: 200)
+                CountDownIndicator(timerPreset: $timerPreset, 
+                                   isEnabled: $isEnabled, radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                     LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
-                                 buttonPressed: didPressButton,
+                                 //buttonPressed: didPressButton,
                                  buttonReleased: didReleaseButton)
-                    // .onLongPressGesture{
-//                        isCountdownEnable = true
-//                        print("Long press")
-//                        if !isCountEnabled{
-//                            timeRemaining = timerPreset
-//                            indicatorColor = .yellow
-//                        }
-//                    }
+                    
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 5.0)
+                            .onChanged({value in
+                                if !isPressed {
+                                    withAnimation(.linear(duration: Double(timerPreset))){
+                                        isPressed = true
+                                    }
+                                }
+                            })
+                            .onEnded({_ in
+                                if !isEnabled {
+                                    isPressed = false
+                                }
+                            })
+                        )
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: Double(timerPreset), 
+                                         maximumDistance: .infinity)
+                        .updating(isDetectingLongPress) { currentState, gestureState,
+                            transaction in
+                            gestureState = currentState
+                            transaction.animation = Animation.easeIn(duration: 2.0)
+                        }
+                        .onEnded({_ in
+                            print("LongPressGesture.onEnded")
+                            print("isEnabled: \(isEnabled)")
+                            isPressed = true
+                        })
+                    )
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 Text("Press and hold button until countdown completes to launch")
@@ -58,12 +88,14 @@ struct Launch: View {
     /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        //isCountdownEnable = false
-        print("Released, Count: \(isEnabled)")
+        //isPressed = false
+        print("Launch Released")
+        print("isPressed: \(isPressed)")
+        print("isEnabled: \(isEnabled)")
     }
 }
 
 #Preview {
-    Launch(isEnabled: true)
+    Launch()
         .background(.gray)
 }
