@@ -25,7 +25,7 @@ struct ContentView: View {
             .aspectRatio(contentMode: .fit)
             .opacity(0.4))
                 
-        Launch()
+        Launch(timeRemaining: .constant(10))
     }
 }
     

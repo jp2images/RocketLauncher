@@ -110,11 +110,12 @@ struct CountDownIndicator: View {
         
         /// Verify if application is active app
             .onChange(of: scenePhase){
-                if scenePhase == .active {
-                    isScenePhaseActive = true
-                } else{
-                    isScenePhaseActive = false
-                }
+                isScenePhaseActive = (scenePhase == .active) ? true : false
+//                if scenePhase == .active {
+//                    isScenePhaseActive = true
+//                } else{
+//                    isScenePhaseActive = false
+//                }
             }
             .foregroundColor(.black)
             .font(.system(size: 72))

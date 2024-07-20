@@ -10,17 +10,13 @@ import SwiftUI
 struct Launch: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
     
-    //@Binding var timeRemaining: Int
+    @Binding var timeRemaining: Int
     @State private var radius: CGFloat = .zero
 
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
     @State var isPressed: Bool = false
-    
-    @State private var isDetectingLongPress: GestureState<Any>
-    @State var GestureState: GestureState<Any>
-    @State var currentState: GestureState<Any>
-       
+           
     var timeLeft: Int = 10
     var timeDone: Bool = false
     
@@ -35,32 +31,30 @@ struct Launch: View {
                     LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
-                                 //buttonPressed: didPressButton,
+                                 //buttonPressed: didPressButton)//,
                                  buttonReleased: didReleaseButton)
                     
                     .simultaneousGesture(
-                        DragGesture(minimumDistance: 5.0)
-                            .onChanged({value in
-                                if !isPressed {
-                                    withAnimation(.linear(duration: Double(timerPreset))){
-                                        isPressed = true
-                                    }
+                        /// DragGesture is equivalent to both button down and button up in windows
+                        /// the minimum distance is how much movement before the event fires.
+                        DragGesture(minimumDistance: 0.0)
+                            /// onChanged notifies when the user touches
+                            .onChanged({_ in
+                                print("ButtonDown")
+                                if timeRemaining == timerPreset{
+                                    isPressed = true
+                                    isEnabled = true
                                 }
                             })
+                            ///onEnded Notifies when the user releases
                             .onEnded({_ in
-                                if !isEnabled {
-                                    isPressed = false
-                                }
+                                isPressed = false
+                                isEnabled = false
+                                print("ButtonUp")
                             })
                         )
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: Double(timerPreset), 
-                                         maximumDistance: .infinity)
-                        .updating(isDetectingLongPress) { currentState, gestureState,
-                            transaction in
-                            gestureState = currentState
-                            transaction.animation = Animation.easeIn(duration: 2.0)
-                        }
+                    .simultaneousGesture(LongPressGesture(minimumDuration: Double(timerPreset),
+                                                          maximumDistance: .infinity)
                         .onEnded({_ in
                             print("LongPressGesture.onEnded")
                             print("isEnabled: \(isEnabled)")
@@ -80,7 +74,7 @@ struct Launch: View {
     /// The launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        isEnabled = true
+        isEnabled = false
         print("Pressed, Count: \(isEnabled)")
     }
     
@@ -88,7 +82,7 @@ struct Launch: View {
     /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        //isPressed = false
+        isPressed = false
         print("Launch Released")
         print("isPressed: \(isPressed)")
         print("isEnabled: \(isEnabled)")
@@ -96,6 +90,6 @@ struct Launch: View {
 }
 
 #Preview {
-    Launch()
+    Launch(timeRemaining: .constant(10))
         .background(.gray)
 }
