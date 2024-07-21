@@ -8,35 +8,55 @@
 import SwiftUI
 
 struct Launch: View {
-   
+    @AppStorage("TimerPreset") var timerPreset: Int = 15
+    @Binding var timeRemaining: Int
+    
+    /// Enable the countdown. If button is release the coundown will stop and reset
+    @State var isEnabled: Bool = false
+    @State var isPressed: Bool = false
+    
     @State private var radius: CGFloat = .zero
-       
+
     var timeLeft: Int = 10
     var timeDone: Bool = false
-
-    /// Enable the countdown. If button is release the coundown will stop and reset
-    @State var isCountdownEnable: Bool = false
     
     var body: some View {
         
         GeometryReader{geo in
             VStack {
-                CountDownIndicator(isCountEnabled: $isCountdownEnable, radius: 200)
+                CountDownIndicator(timerPreset: $timerPreset,
+                                   timeRemaining: $timeRemaining, 
+                                   isEnabled: $isEnabled,
+                                   radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    LaunchButton(isEnabled: $isCountdownEnable,
+                    LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
                                  buttonPressed: didPressButton,
                                  buttonReleased: didReleaseButton)
-                    // .onLongPressGesture{
-//                        isCountdownEnable = true
-//                        print("Long press")
-//                        if !isCountEnabled{
-//                            timeRemaining = timerPreset
-//                            indicatorColor = .yellow
-//                        }
-//                    }
+                    
+                    .simultaneousGesture(
+                        /// DragGesture is equivalent to both button down and button up in windows
+                        /// the minimum distance is how much movement before the event fires.
+                        DragGesture(minimumDistance: 0.0)
+                        /// onChanged notifies when the user touches
+                            .onChanged({_ in
+                                print("ButtonDown")
+                                isPressed = true
+                                
+                                if timeRemaining == timerPreset{
+                                    isEnabled = true
+                                    print("isEnabled: \(isEnabled)")
+                                }
+                            })
+                        ///onEnded Notifies when the user releases
+                            .onEnded({_ in
+                                isPressed = false
+                                isEnabled = false
+                                print("ButtonUp")
+                            })
+                    )
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 Text("Press and hold button until countdown completes to launch")
@@ -50,21 +70,19 @@ struct Launch: View {
     /// The launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        isCountdownEnable = true
-        print("Pressed, Count: \(isCountdownEnable)")
+        //isEnabled = false
+        //print("Pressed, Count: \(isEnabled)")
     }
     
     /// TODO The launch button is released. Not doing anything useful but keeping it around
     /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        //isCountdownEnable = false
-        print("Released, Count: \(isCountdownEnable)")
+        //print("Launch button released")
     }
 }
 
 #Preview {
-    Launch()
+    Launch(timeRemaining: .constant(8))
         .background(.gray)
-        
 }
