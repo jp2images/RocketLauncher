@@ -15,6 +15,7 @@ struct CountDownIndicator: View {
     
     /// AppStorage loaded in the Launch() view
     @Binding var timerPreset: Int
+    
     // Loaded from the Launch() view
     @Binding var isEnabled: Bool
     
@@ -33,7 +34,6 @@ struct CountDownIndicator: View {
     
     /// Bound variable and used in the Launch.Swift view
     @State var timeRemaining: Int = 0
-    
     @State var firstTime: Bool = true
     
     var radius: Double = 200

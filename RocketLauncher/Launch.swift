@@ -11,12 +11,14 @@ struct Launch: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
     
     @Binding var timeRemaining: Int
+    @Binding var timerPreset: Int
+    
     @State private var radius: CGFloat = .zero
 
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
     @State var isPressed: Bool = false
-           
+
     var timeLeft: Int = 10
     var timeDone: Bool = false
     
@@ -24,7 +26,7 @@ struct Launch: View {
         
         GeometryReader{geo in
             VStack {
-                CountDownIndicator(timerPreset: $timerPreset, 
+                CountDownIndicator(timerPreset: $timerPreset,
                                    isEnabled: $isEnabled, radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
@@ -38,7 +40,7 @@ struct Launch: View {
                         /// DragGesture is equivalent to both button down and button up in windows
                         /// the minimum distance is how much movement before the event fires.
                         DragGesture(minimumDistance: 0.0)
-                            /// onChanged notifies when the user touches
+                        /// onChanged notifies when the user touches
                             .onChanged({_ in
                                 print("ButtonDown")
                                 if timeRemaining == timerPreset{
@@ -46,20 +48,12 @@ struct Launch: View {
                                     isEnabled = true
                                 }
                             })
-                            ///onEnded Notifies when the user releases
+                        ///onEnded Notifies when the user releases
                             .onEnded({_ in
                                 isPressed = false
                                 isEnabled = false
                                 print("ButtonUp")
                             })
-                        )
-                    .simultaneousGesture(LongPressGesture(minimumDuration: Double(timerPreset),
-                                                          maximumDistance: .infinity)
-                        .onEnded({_ in
-                            print("LongPressGesture.onEnded")
-                            print("isEnabled: \(isEnabled)")
-                            isPressed = true
-                        })
                     )
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
@@ -90,6 +84,6 @@ struct Launch: View {
 }
 
 #Preview {
-    Launch(timeRemaining: .constant(10))
+    Launch(timeRemaining: timeRemaining, timerPreset: timerPreset)
         .background(.gray)
 }
