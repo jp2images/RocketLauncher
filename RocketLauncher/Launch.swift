@@ -9,15 +9,13 @@ import SwiftUI
 
 struct Launch: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
-    
     @Binding var timeRemaining: Int
-    @Binding var timerPreset: Int
     
-    @State private var radius: CGFloat = .zero
-
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
     @State var isPressed: Bool = false
+    
+    @State private var radius: CGFloat = .zero
 
     var timeLeft: Int = 10
     var timeDone: Bool = false
@@ -27,13 +25,15 @@ struct Launch: View {
         GeometryReader{geo in
             VStack {
                 CountDownIndicator(timerPreset: $timerPreset,
-                                   isEnabled: $isEnabled, radius: 200)
+                                   timeRemaining: $timeRemaining, 
+                                   isEnabled: $isEnabled,
+                                   radius: 200)
                 Spacer()
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                     LaunchButton(isEnabled: $isEnabled,
                                  buttonWidth: 150,
                                  buttonColor: .green,
-                                 //buttonPressed: didPressButton)//,
+                                 buttonPressed: didPressButton,
                                  buttonReleased: didReleaseButton)
                     
                     .simultaneousGesture(
@@ -43,9 +43,11 @@ struct Launch: View {
                         /// onChanged notifies when the user touches
                             .onChanged({_ in
                                 print("ButtonDown")
+                                isPressed = true
+                                
                                 if timeRemaining == timerPreset{
-                                    isPressed = true
                                     isEnabled = true
+                                    print("isEnabled: \(isEnabled)")
                                 }
                             })
                         ///onEnded Notifies when the user releases
@@ -68,22 +70,19 @@ struct Launch: View {
     /// The launch button is pressed
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        isEnabled = false
-        print("Pressed, Count: \(isEnabled)")
+        //isEnabled = false
+        //print("Pressed, Count: \(isEnabled)")
     }
     
     /// TODO The launch button is released. Not doing anything useful but keeping it around
     /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        isPressed = false
-        print("Launch Released")
-        print("isPressed: \(isPressed)")
-        print("isEnabled: \(isEnabled)")
+        //print("Launch button released")
     }
 }
 
 #Preview {
-    Launch(timeRemaining: timeRemaining, timerPreset: timerPreset)
+    Launch(timeRemaining: .constant(8))
         .background(.gray)
 }

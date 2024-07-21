@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
-        
+     
+    @State var timeRemaining: Int = 0
+    
     var body: some View {
         
         HStack {
@@ -25,7 +27,7 @@ struct ContentView: View {
             .aspectRatio(contentMode: .fit)
             .opacity(0.4))
                 
-        Launch(timeRemaining: .constant(10))
+        Launch(timeRemaining: $timeRemaining)
     }
 }
     

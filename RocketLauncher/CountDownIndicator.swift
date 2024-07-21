@@ -16,10 +16,12 @@ struct CountDownIndicator: View {
     /// AppStorage loaded in the Launch() view
     @Binding var timerPreset: Int
     
+    /// Bound variable and used in the Launch.Swift view
+    @Binding var timeRemaining: Int
+    
     // Loaded from the Launch() view
     @Binding var isEnabled: Bool
     
-    @State private var isPressed: Bool = false
     @State private var isTimerRunning = false
     @State private var startTime = Date()
     @State private var indicatorColor: Color = .yellow
@@ -31,9 +33,6 @@ struct CountDownIndicator: View {
     
     ///When application starts up the scene is automatically active. So we start in the active state.
     @State private var isScenePhaseActive = true
-    
-    /// Bound variable and used in the Launch.Swift view
-    @State var timeRemaining: Int = 0
     @State var firstTime: Bool = true
     
     var radius: Double = 200
@@ -81,27 +80,24 @@ struct CountDownIndicator: View {
             .onReceive(timer){ time in
                 if timeRemaining > 0{
                     if firstTime{
-                        print("Time: \(timeRemaining)")
-                        if isEnabled{
-                            print("Counting: \(isEnabled)")
-                        }
+                        print("First Time: \(timeRemaining)")
                         firstTime = false
                     }
+                    print("Timer running: \(isTimerRunning)")
                 }
                 
                 if isEnabled{
                     guard isScenePhaseActive else { return }
                     if timeRemaining > 0 {
                         timeRemaining -= 1
-                        isEnabled = true
                         isTimerRunning = true
+                        indicatorColor = .blue
                     }
                     
                     if timeRemaining <= 0 {
                         isTimerRunning = false
                         indicatorColor = .red
-                        isEnabled = false
-                        isPressed = false
+                        print("Blast Off!")
                         // TODO This is where we should turn on the Bluetooth
                         // signal to turn on the MCU realy output
                     }
@@ -111,11 +107,6 @@ struct CountDownIndicator: View {
         /// Verify if application is active app
             .onChange(of: scenePhase){
                 isScenePhaseActive = (scenePhase == .active) ? true : false
-//                if scenePhase == .active {
-//                    isScenePhaseActive = true
-//                } else{
-//                    isScenePhaseActive = false
-//                }
             }
             .foregroundColor(.black)
             .font(.system(size: 72))
@@ -126,16 +117,20 @@ struct CountDownIndicator: View {
                     .frame(width: radius, height: radius)
                     .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 8, y: 8)
             )
-        /// Reset the timer
+
+            /// Reset the timer
             .onLongPressGesture{
                 if !isEnabled{
                     timeRemaining = timerPreset
-                    indicatorColor = .yellow
+                    indicatorColor = .green
                 }
             }
+        
     }
 }
 
 #Preview {
-    CountDownIndicator(timerPreset: .constant(70), isEnabled: .constant(false))
+    CountDownIndicator(timerPreset: .constant(70), 
+                       timeRemaining: .constant(70),
+                       isEnabled: .constant(false))
 }
