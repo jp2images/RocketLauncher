@@ -10,6 +10,8 @@
 		1F02EA192C31A04B00A92002 /* LaunchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA182C31A04B00A92002 /* LaunchButton.swift */; };
 		1F02EA1B2C31A0D000A92002 /* CountDownIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */; };
 		1F02EA1D2C31A13700A92002 /* Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F02EA1C2C31A13700A92002 /* Launch.swift */; };
+		1F27DD172C55544D00E39012 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F27DD162C55544D00E39012 /* ViewController.swift */; };
+		1F27DD192C55560D00E39012 /* Feather_nRF52.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F27DD182C55560D00E39012 /* Feather_nRF52.swift */; };
 		1FCFA2842C319FDA00B7215A /* RocketLauncherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */; };
 		1FCFA2862C319FDA00B7215A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCFA2852C319FDA00B7215A /* ContentView.swift */; };
 		1FCFA2882C319FDB00B7215A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FCFA2872C319FDB00B7215A /* Assets.xcassets */; };
@@ -40,6 +42,9 @@
 		1F02EA182C31A04B00A92002 /* LaunchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchButton.swift; sourceTree = "<group>"; };
 		1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownIndicator.swift; sourceTree = "<group>"; };
 		1F02EA1C2C31A13700A92002 /* Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launch.swift; sourceTree = "<group>"; };
+		1F27DD152C55463400E39012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1F27DD162C55544D00E39012 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1F27DD182C55560D00E39012 /* Feather_nRF52.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feather_nRF52.swift; sourceTree = "<group>"; };
 		1FCFA2802C319FDA00B7215A /* RocketLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketLauncherApp.swift; sourceTree = "<group>"; };
 		1FCFA2852C319FDA00B7215A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,13 +105,16 @@
 		1FCFA2822C319FDA00B7215A /* RocketLauncher */ = {
 			isa = PBXGroup;
 			children = (
-				1F02EA1C2C31A13700A92002 /* Launch.swift */,
 				1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */,
 				1FCFA2852C319FDA00B7215A /* ContentView.swift */,
-				1FCFA2872C319FDB00B7215A /* Assets.xcassets */,
-				1FCFA2892C319FDB00B7215A /* Preview Content */,
+				1F02EA1C2C31A13700A92002 /* Launch.swift */,
+				1F27DD182C55560D00E39012 /* Feather_nRF52.swift */,
+				1F27DD162C55544D00E39012 /* ViewController.swift */,
 				1F02EA182C31A04B00A92002 /* LaunchButton.swift */,
 				1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */,
+				1F27DD152C55463400E39012 /* Info.plist */,
+				1FCFA2872C319FDB00B7215A /* Assets.xcassets */,
+				1FCFA2892C319FDB00B7215A /* Preview Content */,
 			);
 			path = RocketLauncher;
 			sourceTree = "<group>";
@@ -266,9 +274,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F27DD172C55544D00E39012 /* ViewController.swift in Sources */,
 				1FCFA2862C319FDA00B7215A /* ContentView.swift in Sources */,
 				1F02EA1B2C31A0D000A92002 /* CountDownIndicator.swift in Sources */,
 				1FCFA2842C319FDA00B7215A /* RocketLauncherApp.swift in Sources */,
+				1F27DD192C55560D00E39012 /* Feather_nRF52.swift in Sources */,
 				1F02EA1D2C31A13700A92002 /* Launch.swift in Sources */,
 				1F02EA192C31A04B00A92002 /* LaunchButton.swift in Sources */,
 			);
@@ -437,6 +447,7 @@
 				DEVELOPMENT_TEAM = LH8R488V9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RocketLauncher/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -466,6 +477,7 @@
 				DEVELOPMENT_TEAM = LH8R488V9H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RocketLauncher/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
