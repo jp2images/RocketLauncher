@@ -50,15 +50,15 @@ struct Launch: View {
                                     print("isEnabled: \(isEnabled)")
                                 }
                             })
-                        ///onEnded Notifies when the user releases
+                        /// onEnded Notifies when the user releases
                             .onEnded({_ in
                                 isPressed = false
                                 isEnabled = false
-                                print("ButtonUp")
                             })
                     )
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                
                 Text("Press and hold button until countdown completes to launch")
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -67,22 +67,18 @@ struct Launch: View {
         }
     }
     
-    /// The launch button is pressed
+    /// TODO These launch buttons not doing anything useful but keeping it around
     func didPressButton(button: LaunchButton){
         // If pressed start countdown
-        //isEnabled = false
-        //print("Pressed, Count: \(isEnabled)")
     }
     
-    /// TODO The launch button is released. Not doing anything useful but keeping it around
-    /// for the timer action to stop if the press wasn't long enough to launch.
     func didReleaseButton(button: LaunchButton){
         // If released stop countdown
-        //print("Launch button released")
     }
 }
 
 #Preview {
     Launch(timeRemaining: .constant(8))
         .background(.gray)
+        .colorScheme(.dark)
 }

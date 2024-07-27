@@ -77,13 +77,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1FBE563F2C36FCAC003FD404 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		1FCFA2772C319FDA00B7215A = {
 			isa = PBXGroup;
 			children = (
@@ -111,7 +104,6 @@
 				1FCFA2832C319FDA00B7215A /* RocketLauncherApp.swift */,
 				1FCFA2852C319FDA00B7215A /* ContentView.swift */,
 				1FCFA2872C319FDB00B7215A /* Assets.xcassets */,
-				1FBE563F2C36FCAC003FD404 /* Images */,
 				1FCFA2892C319FDB00B7215A /* Preview Content */,
 				1F02EA182C31A04B00A92002 /* LaunchButton.swift */,
 				1F02EA1A2C31A0D000A92002 /* CountDownIndicator.swift */,

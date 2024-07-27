@@ -77,13 +77,15 @@ struct CountDownIndicator: View {
             .padding([.bottom], 20)
         Spacer()
         Text("\(timeRemaining)")
+        /// Ticks each time the timer counts 1.
             .onReceive(timer){ time in
+                print("Timer running: \(isTimerRunning)")
+                
                 if timeRemaining > 0{
                     if firstTime{
-                        print("First Time: \(timeRemaining)")
+                        //print("First Time: \(timeRemaining)")
                         firstTime = false
                     }
-                    print("Timer running: \(isTimerRunning)")
                 }
                 
                 if isEnabled{
@@ -101,6 +103,8 @@ struct CountDownIndicator: View {
                         // TODO This is where we should turn on the Bluetooth
                         // signal to turn on the MCU realy output
                     }
+                } else if !isTimerRunning && (timerPreset != timeRemaining) {
+                    print("No timer and preset != remain")
                 }
             }
         
@@ -121,6 +125,7 @@ struct CountDownIndicator: View {
             /// Reset the timer
             .onLongPressGesture{
                 if !isEnabled{
+                    print("!Enabled onLongPress")
                     timeRemaining = timerPreset
                     indicatorColor = .green
                 }
