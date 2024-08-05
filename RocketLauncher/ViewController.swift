@@ -64,7 +64,8 @@ class ViewController: UIViewController, CBPeripheralDelegate, CBCentralManagerDe
                     peripheral.discoverCharacteristics([Feather_nRF52.enableSwitchCharacteristicUUID,
                                                         Feather_nRF52.launchCharacteristicUUID,
                                                         Feather_nRF52.batteryLevelCharacteristicUUID,
-                                                        Feather_nRF52.neoPixelLEDCharacteristicUUID], for: service)
+                                                        Feather_nRF52.neoPixelLEDCharacteristicUUID,
+                                                        Feather_nRF52.beeperCharacteristicUUID], for: service)
                     return
                 }
             }
@@ -81,9 +82,11 @@ class ViewController: UIViewController, CBPeripheralDelegate, CBCentralManagerDe
                 } else if characteristic.uuid == Feather_nRF52.launchCharacteristicUUID {
                     print("Launch Relay output characteristic found")
                 } else if characteristic.uuid == Feather_nRF52.batteryLevelCharacteristicUUID {
-                    print("Battery Level characteristic found");
+                    print("Battery Level characteristic found")
                 } else if characteristic.uuid == Feather_nRF52.neoPixelLEDCharacteristicUUID {
                     print("Neopixel characteristic found");
+                } else if characteristic.uuid == Feather_nRF52.beeperCharacteristicUUID {
+                    print("Beeper is enabled")
                 }
             }
         }
