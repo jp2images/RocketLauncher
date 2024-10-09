@@ -10,7 +10,7 @@ import SwiftUI
 struct Launch: View {
     @AppStorage("TimerPreset") var timerPreset: Int = 15
     @Binding var timeRemaining: Int
-    
+   
     /// Enable the countdown. If button is release the coundown will stop and reset
     @State var isEnabled: Bool = false
     @State var isPressed: Bool = false
@@ -40,7 +40,7 @@ struct Launch: View {
                         /// DragGesture is equivalent to both button down and button up in windows
                         /// the minimum distance is how much movement before the event fires.
                         DragGesture(minimumDistance: 0.0)
-                        /// onChanged notifies when the user touches
+                        /// onChanged notifies when the user touches and releases
                             .onChanged({_ in
                                 print("ButtonDown")
                                 isPressed = true

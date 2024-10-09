@@ -26,7 +26,8 @@ struct LaunchButton: View {
             buttonPressed(self)
             buttonReleased(self)
             
-        } label: {///Label is a closure that is available when not using parameters for the button function.
+        } label: {/// Label is a closure that is available when not using parameters for the
+                  /// button function.
             Image("Button")
                 .resizable()
                 .aspectRatio(contentMode: .fit)

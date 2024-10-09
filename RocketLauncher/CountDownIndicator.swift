@@ -65,6 +65,7 @@ struct CountDownIndicator: View {
                 Text("Timer preset: \(timerPreset)")
                     .multilineTextAlignment(.trailing)
                     .foregroundColor(.white)
+                    //.contentTransition(.numericText(value: Double(timerPreset)))
             }
             .padding([.bottom], 10)
             .foregroundColor(.black)
@@ -73,22 +74,24 @@ struct CountDownIndicator: View {
                     timeRemaining = timerPreset
                 }
             }
-        }.frame(width: 235)
-            .padding([.bottom], 20)
+        }
+        .frame(width: 235)
+        .padding([.bottom], 20)
+
         Spacer()
-        Text("\(timeRemaining)")
-        /// Ticks each time the timer counts 1.
+
+        Text("\(timeRemaining)")        
+            /// Ticks each time the timer counts 1.
             .onReceive(timer){ time in
-                print("Timer running: \(isTimerRunning)")
-                
+                //print("Timer running: \(isTimerRunning)")
                 if timeRemaining > 0{
                     if firstTime{
-                        //print("First Time: \(timeRemaining)")
                         firstTime = false
                     }
                 }
                 
                 if isEnabled{
+                    /// Testing to chanck that the RocketLauncher Application is active
                     guard isScenePhaseActive else { return }
                     if timeRemaining > 0 {
                         timeRemaining -= 1
@@ -104,11 +107,10 @@ struct CountDownIndicator: View {
                         // signal to turn on the MCU realy output
                     }
                 } else if !isTimerRunning && (timerPreset != timeRemaining) {
-                    print("No timer and preset != remain")
+                    //print("No timer and preset != remain")
                 }
             }
-        
-        /// Verify if application is active app
+            /// Verify if application is active app and prepare to stop the timer if it is not
             .onChange(of: scenePhase){
                 isScenePhaseActive = (scenePhase == .active) ? true : false
             }
@@ -125,12 +127,11 @@ struct CountDownIndicator: View {
             /// Reset the timer
             .onLongPressGesture{
                 if !isEnabled{
-                    print("!Enabled onLongPress")
+                    //print("!Enabled onLongPress")
                     timeRemaining = timerPreset
                     indicatorColor = .green
                 }
             }
-        
     }
 }
 

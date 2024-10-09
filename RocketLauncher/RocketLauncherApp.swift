@@ -8,6 +8,7 @@
 import SwiftUI
 
 @main
+/// Here begins the application
 struct RocketLauncherApp: App {
     var body: some Scene {
         WindowGroup {
